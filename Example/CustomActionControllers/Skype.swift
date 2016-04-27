@@ -84,6 +84,7 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
     public override func viewDidLoad() {
         super.viewDidLoad()
         contextView = ContextView(frame: CGRectMake(0, -topSpace, collectionView.bounds.width, contentHeight + topSpace + 20))
+        contextView.contextBackgroundColor = settings.contextView.backgroundColor
         contextView.autoresizingMask = UIViewAutoresizing.FlexibleWidth.union(.FlexibleBottomMargin)
         collectionView.clipsToBounds = false
         collectionView.addSubview(contextView)
@@ -232,6 +233,7 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
     private class ContextView: UIView {
         let topSpace = CGFloat(25)
         var diff = CGFloat(0)
+        var contextBackgroundColor: UIColor?
         
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -253,7 +255,12 @@ public class SkypeActionController: ActionController<SkypeCell, String, UICollec
             
             let context = UIGraphicsGetCurrentContext()
             CGContextAddPath(context, path.CGPath)
-            UIColor(colorLiteralRed: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0).set()
+            if(self.contextBackgroundColor != nil) {
+                self.contextBackgroundColor!.set()
+            } else {
+                UIColor(colorLiteralRed: 18/255.0, green: 165/255.0, blue: 244/255.0, alpha: 1.0).set()
+            }
+
             CGContextFillPath(context)
         }
     }
